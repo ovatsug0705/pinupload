@@ -5,7 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { OAuth2CallbackComponent } from './o-auth2-callback/o-auth2-callback.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
   { path: 'oauth2/callback', component: OAuth2CallbackComponent }
 ];

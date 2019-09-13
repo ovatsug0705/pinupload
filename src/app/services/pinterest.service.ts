@@ -13,30 +13,20 @@ export class PinterestService {
 
   private env = environment;
 
-  async getToken() {
+  private accessCode: string = '';
 
-    const params = new HttpParams();
+  initLogin() {
 
-    params.set('response_type', 'code');
-    params.set('redirect_uri', this.env.redirectUri);
-    params.set('client_id', this.env.clientId);
-    params.set('scope', 'read_public,write_public');
-    params.set('state', 'abc123');
+    const params = new HttpParams()
+      .set('response_type', 'code')
+      .set('client_id', this.env.clientId)
+      .set('scope', 'read_public,write_public')
+      .set('redirect_uri', this.env.redirectUri);
 
-    let token;
-
-    try {
-      const promise = await this.http.get(this.env.authUrl, {params: params});
-      console.log('TOKEN: ' + token);
-      promise.subscribe(
-        ret => token = ret
-      );
-      return token;
-    }
-    catch(erro) {
-      console.error(erro);
-    }
+    // Redireciona para o site do Pinterest para fazer login
+    window.location.href = this.env.authUrl + '?' + params.toString();
 
   }
 
+    
 }
