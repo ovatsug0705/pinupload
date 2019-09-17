@@ -404,6 +404,7 @@ var OAuth2CallbackComponent = /** @class */ (function () {
                         return [4 /*yield*/, this.route.queryParams.toPromise()];
                     case 1:
                         queryParams = _a.sent();
+                        console.log(queryParams);
                         if (queryParams['code']) { // Se existir o parâmetro chamado 'code'
                             console.log('*** ACCESS CODE: ' + queryParams['code']);
                             // Salva o access code para uso posterior
