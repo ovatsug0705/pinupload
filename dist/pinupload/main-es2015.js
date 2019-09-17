@@ -392,6 +392,7 @@ let OAuth2CallbackComponent = class OAuth2CallbackComponent {
         return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function* () {
             try {
                 let queryParams = yield this.route.queryParams.toPromise();
+                console.log(queryParams);
                 if (queryParams['code']) { // Se existir o parâmetro chamado 'code'
                     console.log('*** ACCESS CODE: ' + queryParams['code']);
                     // Salva o access code para uso posterior
