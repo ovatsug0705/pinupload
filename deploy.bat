@@ -1,4 +1,5 @@
 "%USERPROFILE%\AppData\Roaming\npm\ng.cmd" build --base-href /pinupload/ && ^
+copy /y src\404.html dist\pinupload && ^
 git add -f dist && ^
 git commit -m %1 && ^
 git subtree push --prefix=dist/pinupload origin gh-pages

@@ -28,5 +28,9 @@ export class PinterestService {
 
   }
 
+  setAccessCode(accessCode: string) {
+    this.accessCode = accessCode;
+  }
+
     
 }
