@@ -376,13 +376,47 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OAuth2CallbackComponent", function() { return OAuth2CallbackComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+/* harmony import */ var _services_pinterest_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../services/pinterest.service */ "./src/app/services/pinterest.service.ts");
+
+
 
 
 let OAuth2CallbackComponent = class OAuth2CallbackComponent {
-    constructor() { }
+    constructor(router, route, pinterest) {
+        this.router = router;
+        this.route = route;
+        this.pinterest = pinterest;
+    }
     ngOnInit() {
+        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function* () {
+            try {
+                let queryParams = yield this.route.queryParams.toPromise();
+                if (queryParams['code']) { // Se existir o parâmetro chamado 'code'
+                    console.log('*** ACCESS CODE: ' + queryParams['code']);
+                    // Salva o access code para uso posterior
+                    this.pinterest.setAccessCode(queryParams['code']);
+                    // Retorna à página inicial
+                    // this.router.navigate(['/home']);
+                }
+                else { // Não tem parâmetro 'code', provavelmente cancelou o login
+                    // Retorna à página de login
+                    this.router.navigate(['/login']);
+                }
+            }
+            catch (error) {
+                console.error(error);
+                // Deu erro no login; retornamos à página de login
+                // this.router.navigate(['/login']);
+            }
+        });
     }
 };
+OAuth2CallbackComponent.ctorParameters = () => [
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"] },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"] },
+    { type: _services_pinterest_service__WEBPACK_IMPORTED_MODULE_3__["PinterestService"] }
+];
 OAuth2CallbackComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
         selector: 'app-o-auth2-callback',
@@ -427,6 +461,9 @@ let PinterestService = class PinterestService {
             .set('redirect_uri', this.env.redirectUri);
         // Redireciona para o site do Pinterest para fazer login
         window.location.href = this.env.authUrl + '?' + params.toString();
+    }
+    setAccessCode(accessCode) {
+        this.accessCode = accessCode;
     }
 };
 PinterestService.ctorParameters = () => [
