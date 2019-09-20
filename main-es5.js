@@ -454,6 +454,7 @@ var PinterestService = /** @class */ (function () {
         this.http = http;
         this.env = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"];
         this.accessCode = '';
+        this.accessToken = '';
     }
     PinterestService.prototype.initLogin = function () {
         var params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
@@ -466,6 +467,25 @@ var PinterestService = /** @class */ (function () {
     };
     PinterestService.prototype.setAccessCode = function (accessCode) {
         this.accessCode = accessCode;
+        this.getAccessToken();
+    };
+    PinterestService.prototype.getAccessToken = function () {
+        var _this = this;
+        var params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
+            .set('grant_type', 'authorization_code')
+            .set('client_id', this.env.clientId)
+            .set('client_secret', this.env.clientSecret)
+            .set('code', this.accessCode);
+        this.http.post(this.env.tokenUri, null, { params: params }).subscribe(function (res) {
+            console.log('--TOKEN--');
+            _this.accessToken = res['access_token'];
+            console.log(_this.accessToken);
+            //this.router.navigate(['/']);
+        }, function (error) {
+            console.error('ERRO DE TOKEN');
+            console.error(error);
+            //this.router.navigate(['/login']);
+        });
     };
     PinterestService.ctorParameters = function () { return [
         { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"] }
@@ -500,7 +520,9 @@ var environment = {
     authUrl: 'https://api.pinterest.com/oauth/',
     // redirect_uri: https://<usuario-do-github>.github.io/pinupload/oauth2/callback
     redirectUri: 'https://faustocintra.github.io/pinupload/oauth2/callback',
-    clientId: '5048713194869147067' // Cada um tem o seu
+    tokenUri: 'https://api.pinterest.com/v1/oauth/token',
+    clientId: '5048713194869147067',
+    clientSecret: '61229065b822b00bf68dda5c20381ba56c315eccd22e6067615a28e16c1c9c7b' // Cada um tem o seu
 };
 /*
  * For easier debugging in development mode, you can import the following file
