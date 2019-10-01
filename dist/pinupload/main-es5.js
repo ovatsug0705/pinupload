@@ -468,7 +468,6 @@ var PinterestService = /** @class */ (function () {
     PinterestService.prototype.setAccessCode = function (accessCode) {
         this.accessCode = accessCode;
         this.getAccessToken();
-        this.getLoggedInUser();
     };
     PinterestService.prototype.getLoggedInUser = function () {
         var endPoint = 'me/';
@@ -491,6 +490,7 @@ var PinterestService = /** @class */ (function () {
             console.log('--TOKEN--');
             _this.accessToken = res['access_token'];
             console.log(_this.accessToken);
+            _this.getLoggedInUser();
             //this.router.navigate(['/']);
         }, function (error) {
             console.error('ERRO DE TOKEN');
