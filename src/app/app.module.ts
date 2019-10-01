@@ -9,13 +9,15 @@ import { MaterialModule } from './material/material.module';
 import { LoginComponent } from './login/login.component';
 import { OAuth2CallbackComponent } from './o-auth2-callback/o-auth2-callback.component';
 import { HomeComponent } from './home/home.component';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     OAuth2CallbackComponent,
-    HomeComponent
+    HomeComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,

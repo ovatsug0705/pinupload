@@ -15,6 +15,7 @@ export class PinterestService {
 
   private accessCode: string = '';
   private accessToken : string = '';
+  private loggedInUser : any;
 
   initLogin() {
 
@@ -31,7 +32,28 @@ export class PinterestService {
 
   setAccessCode(accessCode: string) {
     this.accessCode = accessCode;
-    this.getAccessToken();
+    this.getAccessToken();    
+  }
+
+  getLoggedInUser() {
+    const endPoint = 'me/';
+    const params = new HttpParams()
+      .set('access_token', this.accessToken)
+      .set('fields', 'id,username,first_name,last_name,bio,image');
+
+      this.http.get(this.env.apiUri + endPoint, {params: params}).subscribe (
+        user => {
+          this.loggedInUser = user;
+          console.log(user);
+        },
+        error => {
+          console.error(error);
+        }
+      );
+  }
+
+  getUser() {
+    return this.loggedInUser();
   }
 
   private getAccessToken() {
@@ -46,6 +68,7 @@ export class PinterestService {
           console.log('--TOKEN--');
           this.accessToken = res['access_token'];
           console.log(this.accessToken);
+          this.getLoggedInUser();
           //this.router.navigate(['/']);
         },
         error => {
