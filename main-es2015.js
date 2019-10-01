@@ -56,6 +56,17 @@ module.exports = "<p>o-auth2-callback works!</p>\n"
 
 /***/ }),
 
+/***/ "./node_modules/raw-loader/index.js!./src/app/user/user.component.html":
+/*!********************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/user/user.component.html ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<p>user works!</p>\n"
+
+/***/ }),
+
 /***/ "./src/app/app-routing.module.ts":
 /*!***************************************!*\
   !*** ./src/app/app-routing.module.ts ***!
@@ -152,6 +163,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _login_login_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./login/login.component */ "./src/app/login/login.component.ts");
 /* harmony import */ var _o_auth2_callback_o_auth2_callback_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./o-auth2-callback/o-auth2-callback.component */ "./src/app/o-auth2-callback/o-auth2-callback.component.ts");
 /* harmony import */ var _home_home_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./home/home.component */ "./src/app/home/home.component.ts");
+/* harmony import */ var _user_user_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./user/user.component */ "./src/app/user/user.component.ts");
+
 
 
 
@@ -171,7 +184,8 @@ AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
             _app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"],
             _login_login_component__WEBPACK_IMPORTED_MODULE_8__["LoginComponent"],
             _o_auth2_callback_o_auth2_callback_component__WEBPACK_IMPORTED_MODULE_9__["OAuth2CallbackComponent"],
-            _home_home_component__WEBPACK_IMPORTED_MODULE_10__["HomeComponent"]
+            _home_home_component__WEBPACK_IMPORTED_MODULE_10__["HomeComponent"],
+            _user_user_component__WEBPACK_IMPORTED_MODULE_11__["UserComponent"]
         ],
         imports: [
             _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
@@ -464,7 +478,8 @@ let PinterestService = class PinterestService {
     getLoggedInUser() {
         const endPoint = 'me/';
         const params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
-            .set('access_token', this.accessToken);
+            .set('access_token', this.accessToken)
+            .set('fields', 'id,username,first_name,last_name,bio,image');
         this.http.get(this.env.apiUri + endPoint, { params: params }).subscribe(user => {
             console.log(user);
         }, error => {
@@ -498,6 +513,48 @@ PinterestService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         providedIn: 'root'
     })
 ], PinterestService);
+
+
+
+/***/ }),
+
+/***/ "./src/app/user/user.component.scss":
+/*!******************************************!*\
+  !*** ./src/app/user/user.component.scss ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3VzZXIvdXNlci5jb21wb25lbnQuc2NzcyJ9 */"
+
+/***/ }),
+
+/***/ "./src/app/user/user.component.ts":
+/*!****************************************!*\
+  !*** ./src/app/user/user.component.ts ***!
+  \****************************************/
+/*! exports provided: UserComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserComponent", function() { return UserComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+
+
+let UserComponent = class UserComponent {
+    constructor() { }
+    ngOnInit() {
+    }
+};
+UserComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        selector: 'app-user',
+        template: __webpack_require__(/*! raw-loader!./user.component.html */ "./node_modules/raw-loader/index.js!./src/app/user/user.component.html"),
+        styles: [__webpack_require__(/*! ./user.component.scss */ "./src/app/user/user.component.scss")]
+    })
+], UserComponent);
 
 
 
