@@ -47,7 +47,7 @@ export class PinterestService {
         user => {
           this.loggedInUser = user;
           console.log(user);
-          this.router.navigate(['/user']);
+          this.router.navigate(['user']);
         },
         error => {
           console.error(error);
@@ -81,6 +81,12 @@ export class PinterestService {
         }
       );
     
-  }  
+  }
+  
+  logOff() {
+    this.accessCode = '';
+    this.accessToken = '';
+    this.router.navigate(['login']);
+  }
 
 }

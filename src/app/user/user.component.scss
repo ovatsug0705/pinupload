@@ -1,7 +1,14 @@
+.mat-card-image {
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+}
+
 .example-card {
-   max-width: 400px;
- }
+  max-width: 400px;
+  margin: 0 auto;
+}
  
- .example-header-image {
-   background-size: cover;
- }
+.example-header-image {
+  background-size: cover;
+}

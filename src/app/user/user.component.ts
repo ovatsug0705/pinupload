@@ -27,8 +27,8 @@ export class UserComponent implements OnInit {
     }
   }
 
-  fazerLogoff() {
-
+  doLogoff() {
+    this.pinterest.logOff();
   }
 
 }
