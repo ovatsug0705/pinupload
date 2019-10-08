@@ -489,7 +489,7 @@ let PinterestService = class PinterestService {
         this.http.get(this.env.apiUri + endPoint, { params: params }).subscribe(user => {
             this.loggedInUser = user;
             console.log(user);
-            this.router.navigate(['/user']);
+            this.router.navigate(['user']);
         }, error => {
             console.error(error);
         });
