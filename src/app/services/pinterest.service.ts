@@ -105,4 +105,21 @@ export class PinterestService {
     this.router.navigate(['login']);
   }
 
+  listBoards() {
+
+    // Somente procede à chamada de API se existir um access token
+    if(! this.accessToken) {
+      this.logOff(); // Log off forçado;
+      return;
+    }
+
+    const endPoint = 'me/boards';
+    const params = new HttpParams()
+      .set('access_token', this.accessToken)
+      .set('scope', 'read_public');
+
+    return this.http.get(this.env.apiUri + endPoint, {params: params}).toPromise();
+
+  }
+
 }

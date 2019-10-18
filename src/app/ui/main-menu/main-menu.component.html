@@ -4,6 +4,7 @@
 </button>
 <mat-menu #menu="matMenu">
    <a *ngIf="hasUser()" mat-menu-item [routerLink]="['/user']">Perfil</a>
-   <a *ngIf="! hasUser()"mat-menu-item [routerLink]="['/login']">Entrar</a>
+   <a *ngIf="hasUser()" mat-menu-item [routerLink]="['/boards']">Pastas</a>
+   <a *ngIf="! hasUser()" mat-menu-item [routerLink]="['/login']">Entrar</a>
    <button *ngIf="hasUser()" mat-menu-item (click)="logOff()">Sair</button>   
 </mat-menu>

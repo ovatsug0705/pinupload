@@ -12,6 +12,7 @@ import { HomeComponent } from './home/home.component';
 import { UserComponent } from './user/user.component';
 import { HeaderComponent } from './ui/header/header.component';
 import { MainMenuComponent } from './ui/main-menu/main-menu.component';
+import { BoardsComponent } from './boards/boards.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { MainMenuComponent } from './ui/main-menu/main-menu.component';
     HomeComponent,
     UserComponent,
     HeaderComponent,
-    MainMenuComponent
+    MainMenuComponent,
+    BoardsComponent
   ],
   imports: [
     BrowserModule,
