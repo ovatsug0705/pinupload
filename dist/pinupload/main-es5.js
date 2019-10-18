@@ -85,7 +85,7 @@ module.exports = "<mat-toolbar color=\"primary\" class=\"mat-elevation-z8\">\n  
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<button mat-button [matMenuTriggerFor]=\"menu\" #state=\"matMenuTrigger\">\n   <mat-icon *ngIf=\"! state.menuOpen\">menu</mat-icon>\n   <mat-icon *ngIf=\"state.menuOpen\">close</mat-icon>\n</button>\n<mat-menu #menu=\"matMenu\">\n   <a *ngIf=\"hasUser()\" mat-menu-item [routerLink]=\"['/user']\">Perfil</a>\n   <a *ngIf=\"hasUser()\" mat-menu-item [routerLink]=\"['/boards']\">Pastas</a>\n   <a *ngIf=\"! hasUser()\"mat-menu-item [routerLink]=\"['/login']\">Entrar</a>\n   <button *ngIf=\"hasUser()\" mat-menu-item (click)=\"logOff()\">Sair</button>   \n</mat-menu>"
+module.exports = "<button mat-button [matMenuTriggerFor]=\"menu\" #state=\"matMenuTrigger\">\n   <mat-icon *ngIf=\"! state.menuOpen\">menu</mat-icon>\n   <mat-icon *ngIf=\"state.menuOpen\">close</mat-icon>\n</button>\n<mat-menu #menu=\"matMenu\">\n   <a *ngIf=\"hasUser()\" mat-menu-item [routerLink]=\"['/user']\">Perfil</a>\n   <a *ngIf=\"hasUser()\" mat-menu-item [routerLink]=\"['/boards']\">Pastas</a>\n   <a *ngIf=\"! hasUser()\" mat-menu-item [routerLink]=\"['/login']\">Entrar</a>\n   <button *ngIf=\"hasUser()\" mat-menu-item (click)=\"logOff()\">Sair</button>   \n</mat-menu>"
 
 /***/ }),
 
@@ -662,6 +662,8 @@ var PinterestService = /** @class */ (function () {
     PinterestService.prototype.listBoards = function () {
         // Somente procede à chamada de API se existir um access token
         if (!this.accessToken) {
+            console.log('-- NÃO DEVIA ENTRAR AQUI --');
+            console.log(this.accessToken);
             this.logOff(); // Log off forçado;
             return;
         }
