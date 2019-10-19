@@ -296,14 +296,7 @@ var BoardsComponent = /** @class */ (function () {
       }
     } */
     BoardsComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.pinterest.listBoards().subscribe(function (result) {
-            if (result) {
-                _this.boards = result['data'];
-                console.log(result);
-                console.log(_this.boards);
-            }
-        }, function (error) { return console.log(error); });
+        this.pinterest.listBoards();
     };
     BoardsComponent.ctorParameters = function () { return [
         { type: _services_pinterest_service__WEBPACK_IMPORTED_MODULE_2__["PinterestService"] }
@@ -669,9 +662,12 @@ var PinterestService = /** @class */ (function () {
         var params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
             .set('access_token', this.accessToken)
             .set('scope', 'read_public');
-        var headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]();
-        headers.set('Access-Control-Allow-Origin', '*');
-        return this.http.get(this.env.apiUri + endPoint, { params: params, headers: headers });
+        this.http.get(this.env.apiUri + endPoint, { params: params }).subscribe(function (result) {
+            if (result) {
+                console.log(result);
+            }
+        }, function (error) { return console.log(error); });
+        ;
     };
     PinterestService.ctorParameters = function () { return [
         { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"] },
