@@ -279,19 +279,26 @@ let BoardsComponent = class BoardsComponent {
         this.pinterest = pinterest;
         this.boards = [];
     }
+    /* async ngOnInit() {
+      try {
+        let result = await this.pinterest.listBoards();
+        if (result) {
+          this.boards = result['data'];
+        }
+        console.log(this.boards);
+      }
+      catch(error) {
+        console.error(error);
+      }
+    } */
     ngOnInit() {
-        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function* () {
-            try {
-                let result = yield this.pinterest.listBoards();
-                if (result) {
-                    this.boards = result['data'];
-                }
+        this.pinterest.listBoards().subscribe(result => {
+            if (result) {
+                this.boards = result['data'];
+                console.log(result);
                 console.log(this.boards);
             }
-            catch (error) {
-                console.error(error);
-            }
-        });
+        }, error => console.log(error));
     }
 };
 BoardsComponent.ctorParameters = () => [
@@ -646,7 +653,7 @@ let PinterestService = class PinterestService {
         const params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
             .set('access_token', this.accessToken)
             .set('scope', 'read_public');
-        return this.http.get(this.env.apiUri + endPoint, { params: params }).toPromise();
+        return this.http.get(this.env.apiUri + endPoint, { params: params });
     }
 };
 PinterestService.ctorParameters = () => [
