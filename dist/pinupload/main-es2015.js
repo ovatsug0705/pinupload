@@ -292,13 +292,7 @@ let BoardsComponent = class BoardsComponent {
       }
     } */
     ngOnInit() {
-        this.pinterest.listBoards().subscribe(result => {
-            if (result) {
-                this.boards = result['data'];
-                console.log(result);
-                console.log(this.boards);
-            }
-        }, error => console.log(error));
+        this.pinterest.listBoards();
     }
 };
 BoardsComponent.ctorParameters = () => [
@@ -653,9 +647,12 @@ let PinterestService = class PinterestService {
         const params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
             .set('access_token', this.accessToken)
             .set('scope', 'read_public');
-        let headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]();
-        headers.set('Access-Control-Allow-Origin', '*');
-        return this.http.get(this.env.apiUri + endPoint, { params: params, headers: headers });
+        this.http.get(this.env.apiUri + endPoint, { params: params }).subscribe(result => {
+            if (result) {
+                console.log(result);
+            }
+        }, error => console.log(error));
+        ;
     }
 };
 PinterestService.ctorParameters = () => [
