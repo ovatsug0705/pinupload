@@ -653,7 +653,9 @@ let PinterestService = class PinterestService {
         const params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
             .set('access_token', this.accessToken)
             .set('scope', 'read_public');
-        return this.http.get(this.env.apiUri + endPoint, { params: params });
+        let headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]();
+        headers.set('Access-Control-Allow-Origin', '*');
+        return this.http.get(this.env.apiUri + endPoint, { params: params, headers: headers });
     }
 };
 PinterestService.ctorParameters = () => [
