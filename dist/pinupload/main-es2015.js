@@ -577,7 +577,7 @@ let PinterestService = class PinterestService {
             .set('Content-Type', 'application/json')
             .set('Access-Control-Allow-Origin', 'https://faustocintra.github.io')
             .set('Access-Control-Allow-Credentials', 'true')
-            .set('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, PUT, OPTIONS')
+            //.set('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, PUT, OPTIONS')
             .set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
     }
     initLogin() {
