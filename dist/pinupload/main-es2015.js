@@ -648,7 +648,11 @@ let PinterestService = class PinterestService {
             .set('access_token', this.accessToken)
             .set('scope', 'read_public');
         const headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]()
-            .set('Access-Control-Allow-Origin', 'https://faustocintra.github.io');
+            .set('Content-Type', 'application/json')
+            .set('Access-Control-Allow-Origin', 'https://faustocintra.github.io')
+            .set('Access-Control-Allow-Credentials', 'true')
+            .set('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, PUT, OPTIONS')
+            .set('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
         this.http.get(this.env.apiUri + endPoint, { params: params, headers: headers }).subscribe(result => {
             if (result) {
                 console.log(result);
