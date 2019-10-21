@@ -11,11 +11,19 @@ export class PinterestService {
 
   private env = environment;
   
-  
+  private reqHeaders : HttpHeaders;
+
   constructor(
     private http: HttpClient,
     private router: Router
   ) { 
+    this.reqHeaders = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Access-Control-Allow-Origin', 'https://faustocintra.github.io')
+      .set('Access-Control-Allow-Credentials', 'true')
+      .set('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, PUT, OPTIONS')
+      .set('Access-Control-Request-Headers', 'Authorization, X-PING')
+      .set('Access-Control-Allow-Headers', 'Content-Type, Authorization, Access-Control-Allow-Headers, X-Requested-With, X-PING');
   }
 
   /* accessCode e accessToken podem ser string ou null */
@@ -121,7 +129,7 @@ export class PinterestService {
       .set('access_token', this.accessToken)
       .set('scope', 'read_public');
 
-    this.http.get(this.env.apiUri + endPoint, {params: params}).subscribe(
+    this.http.get(this.env.apiUri + endPoint, {params: params, headers: this.reqHeaders}).subscribe(
       result => {
         if(result) {
           
