@@ -1,19 +1,22 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class PinterestService {
 
+  private env = environment;
+  
+  
   constructor(
     private http: HttpClient,
     private router: Router
-  ) { }
-
-  private env = environment;
+  ) { 
+  }
 
   /* accessCode e accessToken podem ser string ou null */
   private accessCode: string|null = null;
@@ -58,16 +61,16 @@ export class PinterestService {
       .set('access_token', this.accessToken)
       .set('fields', 'id,username,first_name,last_name,bio,image');
 
-      this.http.get(this.env.apiUri + endPoint, {params: params}).subscribe (
-        user => {
-          this.loggedInUser = user;
-          console.log(user);
-          this.router.navigate(['user']);
-        },
-        error => {
-          console.error(error);
-        }
-      );
+    this.http.get(this.env.apiUri + endPoint, {params: params}).subscribe (
+      user => {
+        this.loggedInUser = user;
+        console.log(user);
+        this.router.navigate(['user']);
+      },
+      error => {
+        console.error(error);
+      }
+    );
   }
 
   getUser() {
@@ -118,7 +121,17 @@ export class PinterestService {
       .set('access_token', this.accessToken)
       .set('scope', 'read_public');
 
-    return this.http.get(this.env.apiUri + endPoint, {params: params}).toPromise();
+    this.http.get(this.env.apiUri + endPoint, {params: params}).subscribe(
+      result => {
+        if(result) {
+          
+          console.log(result);
+          
+        }
+      },
+      error => console.log(error)
+    );
+
 
   }
 

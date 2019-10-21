@@ -12,7 +12,7 @@ export class BoardsComponent implements OnInit {
 
   boards: any = [];
 
-  async ngOnInit() {
+  /* async ngOnInit() {
     try {
       let result = await this.pinterest.listBoards();
       if (result) {
@@ -23,6 +23,10 @@ export class BoardsComponent implements OnInit {
     catch(error) {
       console.error(error);
     }
+  } */
+
+  ngOnInit() {
+    this.pinterest.listBoards();
   }
 
 }
