@@ -579,7 +579,7 @@ let PinterestService = class PinterestService {
             .set('Access-Control-Allow-Credentials', 'true')
             .set('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, PUT, OPTIONS')
             .set('Access-Control-Request-Headers', 'Authorization, X-PING')
-            .set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-PING');
+            .set('Access-Control-Allow-Headers', 'Content-Type, Authorization, Access-Control-Allow-Headers, X-Requested-With, X-PING');
     }
     initLogin() {
         // Só inicia o login caso não existam o access code e o acess token
