@@ -586,6 +586,12 @@ var PinterestService = /** @class */ (function () {
         this.accessCode = null;
         this.accessToken = null;
         this.loggedInUser = null;
+        this.reqHeaders = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]()
+            .set('Content-Type', 'application/json')
+            .set('Access-Control-Allow-Origin', 'https://faustocintra.github.io')
+            .set('Access-Control-Allow-Credentials', 'true')
+            .set('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, PUT, OPTIONS')
+            .set('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
     }
     PinterestService.prototype.initLogin = function () {
         // Só inicia o login caso não existam o access code e o acess token
@@ -662,13 +668,7 @@ var PinterestService = /** @class */ (function () {
         var params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
             .set('access_token', this.accessToken)
             .set('scope', 'read_public');
-        var headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]()
-            .set('Content-Type', 'application/json')
-            .set('Access-Control-Allow-Origin', 'https://faustocintra.github.io')
-            .set('Access-Control-Allow-Credentials', 'true')
-            .set('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, PUT, OPTIONS')
-            .set('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
-        this.http.get(this.env.apiUri + endPoint, { params: params, headers: headers }).subscribe(function (result) {
+        this.http.get(this.env.apiUri + endPoint, { params: params, headers: this.reqHeaders }).subscribe(function (result) {
             if (result) {
                 console.log(result);
             }
