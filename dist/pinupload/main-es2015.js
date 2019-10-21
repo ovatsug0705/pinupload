@@ -645,11 +645,8 @@ let PinterestService = class PinterestService {
         }
         const endPoint = 'me/boards';
         const params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
-            .set('access_token', this.accessToken)
-            .set('scope', 'read_public');
-        const headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]()
-            .set('Origin', 'www.example.com');
-        this.http.get(this.env.apiUri + endPoint, { params: params, headers: headers }).subscribe(result => {
+            .set('access_token', this.accessToken);
+        this.http.get(this.env.apiUri + endPoint, { params: params }).subscribe(result => {
             if (result) {
                 console.log(result);
             }
