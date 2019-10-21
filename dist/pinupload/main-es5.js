@@ -616,9 +616,7 @@ var PinterestService = /** @class */ (function () {
         var params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
             .set('access_token', this.accessToken)
             .set('fields', 'id,username,first_name,last_name,bio,image');
-        var headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]()
-            .set('Origin', 'www.example.com');
-        this.http.get(this.env.apiUri + endPoint, { params: params, headers: headers }).subscribe(function (user) {
+        this.http.get(this.env.apiUri + endPoint, { params: params }).subscribe(function (user) {
             _this.loggedInUser = user;
             console.log(user);
             _this.router.navigate(['user']);
@@ -664,12 +662,13 @@ var PinterestService = /** @class */ (function () {
         var params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
             .set('access_token', this.accessToken)
             .set('scope', 'read_public');
-        this.http.get(this.env.apiUri + endPoint, { params: params }).subscribe(function (result) {
+        var headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]()
+            .set('Origin', 'www.example.com');
+        this.http.get(this.env.apiUri + endPoint, { params: params, headers: headers }).subscribe(function (result) {
             if (result) {
                 console.log(result);
             }
         }, function (error) { return console.log(error); });
-        ;
     };
     PinterestService.ctorParameters = function () { return [
         { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"] },
