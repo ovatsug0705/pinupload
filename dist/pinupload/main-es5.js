@@ -658,7 +658,7 @@ var PinterestService = /** @class */ (function () {
             this.logOff(); // Log off forçado;
             return;
         }
-        var endPoint = 'me/boards';
+        var endPoint = 'me/boards/cintra0385/avatares';
         var params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
             .set('access_token', this.accessToken)
             .set('scope', 'read_public');
