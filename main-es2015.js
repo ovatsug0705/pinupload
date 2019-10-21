@@ -608,7 +608,7 @@ let PinterestService = class PinterestService {
         const params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
             .set('access_token', this.accessToken)
             .set('fields', 'id,username,first_name,last_name,bio,image');
-        this.http.get(this.env.apiUri + endPoint, { params: params }).subscribe(user => {
+        this.http.get(this.env.apiUri + endPoint, { params: params, headers: this.reqHeaders }).subscribe(user => {
             this.loggedInUser = user;
             console.log(user);
             this.router.navigate(['user']);
@@ -625,7 +625,7 @@ let PinterestService = class PinterestService {
             .set('client_id', this.env.clientId)
             .set('client_secret', this.env.clientSecret)
             .set('code', this.accessCode);
-        this.http.post(this.env.tokenUri, null, { params: params }).subscribe(res => {
+        this.http.post(this.env.tokenUri, null, { params: params, headers: this.reqHeaders }).subscribe(res => {
             console.log('--TOKEN--');
             this.accessToken = res['access_token'];
             console.log(this.accessToken);
