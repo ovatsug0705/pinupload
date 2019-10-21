@@ -645,7 +645,8 @@ let PinterestService = class PinterestService {
         }
         const endPoint = 'me/boards';
         const params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
-            .set('access_token', this.accessToken);
+            .set('access_token', this.accessToken)
+            .set('scope', 'read_public');
         this.http.get(this.env.apiUri + endPoint, { params: params }).subscribe(result => {
             if (result) {
                 console.log(result);
@@ -845,8 +846,7 @@ const environment = {
     production: false,
     authUrl: 'https://api.pinterest.com/oauth/',
     // redirect_uri: https://<usuario-do-github>.github.io/pinupload/oauth2/callback
-    //redirectUri: 'https://faustocintra.github.io/pinupload/oauth2/callback',
-    redirectUri: 'https://fatecfranca.edu.br/pinupload/oauth2/callback',
+    redirectUri: 'https://faustocintra.github.io/pinupload/oauth2/callback',
     tokenUri: 'https://api.pinterest.com/v1/oauth/token',
     apiUri: 'https://api.pinterest.com/v1/',
     clientId: '5061890736316790442',
