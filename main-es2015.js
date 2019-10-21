@@ -647,7 +647,7 @@ let PinterestService = class PinterestService {
         const params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
             .set('access_token', this.accessToken)
             .set('scope', 'read_public');
-        this.http.get('https://crossorigin.me/' + this.env.apiUri + endPoint, { params: params }).subscribe(result => {
+        this.http.get(this.env.apiUri + endPoint, { params: params }).subscribe(result => {
             if (result) {
                 console.log(result);
             }
