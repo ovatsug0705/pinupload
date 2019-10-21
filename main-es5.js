@@ -587,10 +587,10 @@ var PinterestService = /** @class */ (function () {
         this.accessToken = null;
         this.loggedInUser = null;
         this.reqHeaders = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]()
-            //.set('Content-Type', 'application/json')
+            .set('Content-Type', 'application/json')
             .set('Access-Control-Allow-Origin', 'https://faustocintra.github.io')
             .set('Access-Control-Allow-Credentials', 'true')
-            //.set('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, PUT, OPTIONS')
+            .set('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, PUT, OPTIONS')
             .set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
     }
     PinterestService.prototype.initLogin = function () {
@@ -622,7 +622,7 @@ var PinterestService = /** @class */ (function () {
         var params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
             .set('access_token', this.accessToken)
             .set('fields', 'id,username,first_name,last_name,bio,image');
-        this.http.get(this.env.apiUri + endPoint, { params: params, headers: this.reqHeaders }).subscribe(function (user) {
+        this.http.get(this.env.apiUri + endPoint, { params: params }).subscribe(function (user) {
             _this.loggedInUser = user;
             console.log(user);
             _this.router.navigate(['user']);
@@ -640,7 +640,7 @@ var PinterestService = /** @class */ (function () {
             .set('client_id', this.env.clientId)
             .set('client_secret', this.env.clientSecret)
             .set('code', this.accessCode);
-        this.http.post(this.env.tokenUri, null, { params: params, headers: this.reqHeaders }).subscribe(function (res) {
+        this.http.post(this.env.tokenUri, null, { params: params }).subscribe(function (res) {
             console.log('--TOKEN--');
             _this.accessToken = res['access_token'];
             console.log(_this.accessToken);
