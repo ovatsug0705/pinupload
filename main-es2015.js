@@ -217,6 +217,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 let AppModule = class AppModule {
 };
 AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -234,9 +235,10 @@ AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         imports: [
             _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
             _app_routing_module__WEBPACK_IMPORTED_MODULE_4__["AppRoutingModule"],
+            _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientModule"],
+            _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientJsonpModule"],
             _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_6__["BrowserAnimationsModule"],
-            _material_material_module__WEBPACK_IMPORTED_MODULE_7__["MaterialModule"],
-            _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientModule"]
+            _material_material_module__WEBPACK_IMPORTED_MODULE_7__["MaterialModule"]
         ],
         providers: [],
         bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"]]
@@ -654,11 +656,18 @@ let PinterestService = class PinterestService {
         const params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
             .set('access_token', this.accessToken)
             .set('scope', 'read_public');
-        this.http.get(this.env.apiUri + endPoint, { params: params, observe: 'response' }).subscribe(result => {
-            if (result) {
-                console.log(result);
+        /* this.http.get(this.env.apiUri + endPoint, {params: params, observe: 'response'}).subscribe(
+          result => {
+            if(result) {
+              
+              console.log(result);
+              
             }
-        }, error => console.log(error));
+          },
+          error => console.log(error)
+        ); */
+        let fullUri = this.env.apiUri + endPoint + '?' + params.toString();
+        this.http.jsonp(fullUri, 'callback').subscribe(res => console.log(res), error => console.error(error));
     }
 };
 PinterestService.ctorParameters = () => [
