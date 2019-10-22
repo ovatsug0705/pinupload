@@ -588,7 +588,7 @@ var PinterestService = /** @class */ (function () {
         this.loggedInUser = null;
         this.reqHeaders = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]()
             .set('Content-Type', 'application/json')
-            .set('Access-Control-Allow-Origin', window.location.hostname)
+            .set('Access-Control-Allow-Origin', 'https://' + window.location.hostname)
             .set('Access-Control-Allow-Credentials', 'true')
             .set('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, PUT, OPTIONS')
             //.set('Access-Control-Request-Headers', 'Authorization, X-PING')
