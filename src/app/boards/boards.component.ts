@@ -11,22 +11,28 @@ export class BoardsComponent implements OnInit {
   constructor(private pinterest: PinterestService) { }
 
   boards: any = [];
+  boardPins: any = [];
 
-  /* async ngOnInit() {
+  async ngOnInit() {
     try {
       let result = await this.pinterest.listBoards();
-      if (result) {
-        this.boards = result['data'];
-      }
+      this.boards = result['data'];
       console.log(this.boards);
     }
     catch(error) {
       console.error(error);
     }
-  } */
+  }
 
-  ngOnInit() {
-    this.pinterest.listBoards();
+  async fetchPins(boardName: string) {
+    try {
+      let result = await this.pinterest.listBoardPins(boardName);
+      this.boardPins = result['data'];
+      console.log(result);
+    }
+    catch(error) {
+      console.log(error);
+    }
   }
 
 }

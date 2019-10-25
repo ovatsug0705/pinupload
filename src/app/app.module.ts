@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { HttpClientJsonpModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -28,9 +29,10 @@ import { BoardsComponent } from './boards/boards.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
+    HttpClientJsonpModule,    
     BrowserAnimationsModule,
-    MaterialModule,
-    HttpClientModule
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]

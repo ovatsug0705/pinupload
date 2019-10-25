@@ -19,10 +19,10 @@ export class PinterestService {
   ) { 
     this.reqHeaders = new HttpHeaders()
       .set('Content-Type', 'application/json')
-      .set('Access-Control-Allow-Origin', 'https://faustocintra.github.io')
+      .set('Access-Control-Allow-Origin', 'https://' + window.location.hostname)
       .set('Access-Control-Allow-Credentials', 'true')
       .set('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, PUT, OPTIONS')
-      .set('Access-Control-Request-Headers', 'Authorization, X-PING')
+      //.set('Access-Control-Request-Headers', 'Authorization, X-PING')
       .set('Access-Control-Allow-Headers', 'Content-Type, Authorization, Access-Control-Allow-Headers, X-Requested-With, X-PING');
   }
 
@@ -92,7 +92,7 @@ export class PinterestService {
       .set('client_secret', this.env.clientSecret)
       .set('code', this.accessCode);
 
-      this.http.post(this.env.tokenUri, null, {params: params}).subscribe(
+      this.http.jsonp(this.env.tokenUri + '?' + params.toString(), 'callback').subscribe(
         res => {
           console.log('--TOKEN--');
           this.accessToken = res['access_token'];
@@ -128,18 +128,29 @@ export class PinterestService {
     const params = new HttpParams()
       .set('access_token', this.accessToken)
       .set('scope', 'read_public');
+    
+    let fullUri = this.env.apiUri + endPoint + '?' + params.toString();
 
-    this.http.get(this.env.apiUri + endPoint, {params: params, headers: this.reqHeaders}).subscribe(
-      result => {
-        if(result) {
-          
-          console.log(result);
-          
-        }
-      },
-      error => console.log(error)
-    );
+    return this.http.jsonp(fullUri, 'callback').toPromise();
 
+  }
+
+  listBoardPins(boardName: string) {
+
+    // Somente procede à chamada de API se existir um access token
+    if(! this.accessToken) {
+      this.logOff(); // Log off forçado;
+      return;
+    }
+
+    const endPoint = `boards/${this.loggedInUser.username}/${boardName}/pins`;
+    const params = new HttpParams()
+      .set('access_token', this.accessToken)
+      .set('scope', 'read_public');
+
+    let fullUri = this.env.apiUri + endPoint + '?' + params.toString();
+
+    return this.http.jsonp(fullUri, 'callback').toPromise();
 
   }
 

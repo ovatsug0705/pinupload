@@ -1,7 +1,7 @@
 <h1>Pastas</h1>
 
 <mat-accordion *ngIf="boards.length > 0">
-   <mat-expansion-panel *ngFor="let board of boards">
+   <mat-expansion-panel *ngFor="let board of boards" (opened)="fetchPins(board.name)">
       <mat-expansion-panel-header>
 
          <mat-panel-title>
