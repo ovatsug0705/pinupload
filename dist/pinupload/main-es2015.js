@@ -281,20 +281,16 @@ let BoardsComponent = class BoardsComponent {
         this.pinterest = pinterest;
         this.boards = [];
     }
-    /* async ngOnInit() {
-      try {
-        let result = await this.pinterest.listBoards();
-        if (result) {
-          this.boards = result['data'];
-        }
-        console.log(this.boards);
-      }
-      catch(error) {
-        console.error(error);
-      }
-    } */
     ngOnInit() {
-        this.pinterest.listBoards();
+        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function* () {
+            try {
+                let result = yield this.pinterest.listBoards();
+                this.boards = result['data'];
+            }
+            catch (error) {
+                console.error(error);
+            }
+        });
     }
 };
 BoardsComponent.ctorParameters = () => [
@@ -656,18 +652,8 @@ let PinterestService = class PinterestService {
         const params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
             .set('access_token', this.accessToken)
             .set('scope', 'read_public');
-        /* this.http.get(this.env.apiUri + endPoint, {params: params, observe: 'response'}).subscribe(
-          result => {
-            if(result) {
-              
-              console.log(result);
-              
-            }
-          },
-          error => console.log(error)
-        ); */
         let fullUri = this.env.apiUri + endPoint + '?' + params.toString();
-        this.http.jsonp(fullUri, 'callback').subscribe(res => console.log(res), error => console.error(error));
+        return this.http.jsonp(fullUri, 'callback').toPromise();
     }
 };
 PinterestService.ctorParameters = () => [

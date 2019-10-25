@@ -285,20 +285,26 @@ var BoardsComponent = /** @class */ (function () {
         this.pinterest = pinterest;
         this.boards = [];
     }
-    /* async ngOnInit() {
-      try {
-        let result = await this.pinterest.listBoards();
-        if (result) {
-          this.boards = result['data'];
-        }
-        console.log(this.boards);
-      }
-      catch(error) {
-        console.error(error);
-      }
-    } */
     BoardsComponent.prototype.ngOnInit = function () {
-        this.pinterest.listBoards();
+        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
+            var result, error_1;
+            return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.pinterest.listBoards()];
+                    case 1:
+                        result = _a.sent();
+                        this.boards = result['data'];
+                        return [3 /*break*/, 3];
+                    case 2:
+                        error_1 = _a.sent();
+                        console.error(error_1);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
     };
     BoardsComponent.ctorParameters = function () { return [
         { type: _services_pinterest_service__WEBPACK_IMPORTED_MODULE_2__["PinterestService"] }
@@ -671,18 +677,8 @@ var PinterestService = /** @class */ (function () {
         var params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
             .set('access_token', this.accessToken)
             .set('scope', 'read_public');
-        /* this.http.get(this.env.apiUri + endPoint, {params: params, observe: 'response'}).subscribe(
-          result => {
-            if(result) {
-              
-              console.log(result);
-              
-            }
-          },
-          error => console.log(error)
-        ); */
         var fullUri = this.env.apiUri + endPoint + '?' + params.toString();
-        this.http.jsonp(fullUri, 'callback').subscribe(function (res) { return console.log(res); }, function (error) { return console.error(error); });
+        return this.http.jsonp(fullUri, 'callback').toPromise();
     };
     PinterestService.ctorParameters = function () { return [
         { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"] },
