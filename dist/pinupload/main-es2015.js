@@ -30,7 +30,7 @@ webpackEmptyAsyncContext.id = "./$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h1>Pastas</h1>\n\n<mat-accordion *ngIf=\"boards.length > 0\">\n   <mat-expansion-panel *ngFor=\"let board of boards\">\n      <mat-expansion-panel-header>\n\n         <mat-panel-title>\n            {{ board.name }}\n         </mat-panel-title>\n\n      </mat-expansion-panel-header>\n\n      <p>Aqui aparecerão os pins desta pasta.</p>\n\n   </mat-expansion-panel>\n</mat-accordion>\n\n<p *ngIf=\"boards.length <= 0\">Você não criou nenhuma pasta ainda.</p>"
+module.exports = "<h1>Pastas</h1>\n\n<mat-accordion *ngIf=\"boards.length > 0\">\n   <mat-expansion-panel *ngFor=\"let board of boards\" (opened)=\"fetchPins(board.name)\">\n      <mat-expansion-panel-header>\n\n         <mat-panel-title>\n            {{ board.name }}\n         </mat-panel-title>\n\n      </mat-expansion-panel-header>\n\n      <p>Aqui aparecerão os pins desta pasta.</p>\n\n   </mat-expansion-panel>\n</mat-accordion>\n\n<p *ngIf=\"boards.length <= 0\">Você não criou nenhuma pasta ainda.</p>"
 
 /***/ }),
 
@@ -280,6 +280,7 @@ let BoardsComponent = class BoardsComponent {
     constructor(pinterest) {
         this.pinterest = pinterest;
         this.boards = [];
+        this.boardPins = [];
     }
     ngOnInit() {
         return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function* () {
@@ -290,6 +291,18 @@ let BoardsComponent = class BoardsComponent {
             }
             catch (error) {
                 console.error(error);
+            }
+        });
+    }
+    fetchPins(boardName) {
+        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function* () {
+            try {
+                let result = yield this.pinterest.listBoardPins(boardName);
+                this.boardPins = result['data'];
+                console.log(result);
+            }
+            catch (error) {
+                console.log(error);
             }
         });
     }
@@ -650,6 +663,19 @@ let PinterestService = class PinterestService {
             return;
         }
         const endPoint = 'me/boards';
+        const params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
+            .set('access_token', this.accessToken)
+            .set('scope', 'read_public');
+        let fullUri = this.env.apiUri + endPoint + '?' + params.toString();
+        return this.http.jsonp(fullUri, 'callback').toPromise();
+    }
+    listBoardPins(boardName) {
+        // Somente procede à chamada de API se existir um access token
+        if (!this.accessToken) {
+            this.logOff(); // Log off forçado;
+            return;
+        }
+        const endPoint = `boards/${this.loggedInUser.username}/${boardName}/pins`;
         const params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
             .set('access_token', this.accessToken)
             .set('scope', 'read_public');
