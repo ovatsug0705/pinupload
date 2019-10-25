@@ -673,7 +673,7 @@ var PinterestService = /** @class */ (function () {
             .set('client_id', this.env.clientId)
             .set('client_secret', this.env.clientSecret)
             .set('code', this.accessCode);
-        this.http.post(this.env.tokenUri, null, { params: params }).subscribe(function (res) {
+        this.http.jsonp(this.env.tokenUri + '?' + params.toString(), 'callback').subscribe(function (res) {
             console.log('--TOKEN--');
             _this.accessToken = res['access_token'];
             console.log(_this.accessToken);
