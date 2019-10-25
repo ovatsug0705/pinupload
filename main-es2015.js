@@ -286,6 +286,7 @@ let BoardsComponent = class BoardsComponent {
             try {
                 let result = yield this.pinterest.listBoards();
                 this.boards = result['data'];
+                console.log(this.boards);
             }
             catch (error) {
                 console.error(error);

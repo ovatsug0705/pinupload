@@ -296,6 +296,7 @@ var BoardsComponent = /** @class */ (function () {
                     case 1:
                         result = _a.sent();
                         this.boards = result['data'];
+                        console.log(this.boards);
                         return [3 /*break*/, 3];
                     case 2:
                         error_1 = _a.sent();
