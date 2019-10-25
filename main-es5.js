@@ -30,7 +30,7 @@ webpackEmptyAsyncContext.id = "./$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h1>Pastas</h1>\n\n<mat-accordion *ngIf=\"boards.length > 0\">\n   <mat-expansion-panel *ngFor=\"let board of boards\">\n      <mat-expansion-panel-header>\n\n         <mat-panel-title>\n            {{ board.name }}\n         </mat-panel-title>\n\n      </mat-expansion-panel-header>\n\n      <p>Aqui aparecerão os pins desta pasta.</p>\n\n   </mat-expansion-panel>\n</mat-accordion>\n\n<p *ngIf=\"boards.length <= 0\">Você não criou nenhuma pasta ainda.</p>"
+module.exports = "<h1>Pastas</h1>\n\n<mat-accordion *ngIf=\"boards.length > 0\">\n   <mat-expansion-panel *ngFor=\"let board of boards\" (opened)=\"fetchPins(board.name)\">\n      <mat-expansion-panel-header>\n\n         <mat-panel-title>\n            {{ board.name }}\n         </mat-panel-title>\n\n      </mat-expansion-panel-header>\n\n      <p>Aqui aparecerão os pins desta pasta.</p>\n\n   </mat-expansion-panel>\n</mat-accordion>\n\n<p *ngIf=\"boards.length <= 0\">Você não criou nenhuma pasta ainda.</p>"
 
 /***/ }),
 
@@ -284,6 +284,7 @@ var BoardsComponent = /** @class */ (function () {
     function BoardsComponent(pinterest) {
         this.pinterest = pinterest;
         this.boards = [];
+        this.boardPins = [];
     }
     BoardsComponent.prototype.ngOnInit = function () {
         return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
@@ -301,6 +302,28 @@ var BoardsComponent = /** @class */ (function () {
                     case 2:
                         error_1 = _a.sent();
                         console.error(error_1);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    BoardsComponent.prototype.fetchPins = function (boardName) {
+        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
+            var result, error_2;
+            return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.pinterest.listBoardPins(boardName)];
+                    case 1:
+                        result = _a.sent();
+                        this.boardPins = result['data'];
+                        console.log(result);
+                        return [3 /*break*/, 3];
+                    case 2:
+                        error_2 = _a.sent();
+                        console.log(error_2);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
@@ -675,6 +698,19 @@ var PinterestService = /** @class */ (function () {
             return;
         }
         var endPoint = 'me/boards';
+        var params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
+            .set('access_token', this.accessToken)
+            .set('scope', 'read_public');
+        var fullUri = this.env.apiUri + endPoint + '?' + params.toString();
+        return this.http.jsonp(fullUri, 'callback').toPromise();
+    };
+    PinterestService.prototype.listBoardPins = function (boardName) {
+        // Somente procede à chamada de API se existir um access token
+        if (!this.accessToken) {
+            this.logOff(); // Log off forçado;
+            return;
+        }
+        var endPoint = "boards/" + this.loggedInUser.username + "/" + boardName + "/pins";
         var params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
             .set('access_token', this.accessToken)
             .set('scope', 'read_public');
