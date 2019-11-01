@@ -428,7 +428,7 @@ var LoginComponent = /** @class */ (function () {
     LoginComponent.prototype.ngOnInit = function () {
     };
     LoginComponent.prototype.doLogin = function () {
-        if (!this.pinterest.isLoggedIn()) {
+        if (!this.pinterest.getUser()) {
             this.pinterest.initLogin();
         }
         else {
