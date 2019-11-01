@@ -639,7 +639,13 @@ let PinterestService = class PinterestService {
         });
     }
     getUser() {
-        return sessionStorage.getItem('user');
+        let user = sessionStorage.getItem('user');
+        if (user) {
+            return user;
+        }
+        else {
+            this.getLoggedInUser();
+        }
     }
     getAccessToken() {
         const params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()

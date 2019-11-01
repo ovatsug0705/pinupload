@@ -673,7 +673,13 @@ var PinterestService = /** @class */ (function () {
         });
     };
     PinterestService.prototype.getUser = function () {
-        return sessionStorage.getItem('user');
+        var user = sessionStorage.getItem('user');
+        if (user) {
+            return user;
+        }
+        else {
+            this.getLoggedInUser();
+        }
     };
     PinterestService.prototype.getAccessToken = function () {
         var _this = this;
