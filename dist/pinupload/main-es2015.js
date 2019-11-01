@@ -631,7 +631,7 @@ let PinterestService = class PinterestService {
             .set('access_token', sessionStorage.getItem('accessToken'))
             .set('fields', 'id,username,first_name,last_name,bio,image');
         this.http.get(this.env.apiUri + endPoint, { params: params }).subscribe(user => {
-            sessionStorage.setItem('user', user['data']);
+            sessionStorage.setItem('user', JSON.stringify(user['data']));
             console.log(user);
             this.router.navigate(['user']);
         }, error => {
@@ -639,7 +639,7 @@ let PinterestService = class PinterestService {
         });
     }
     getUser() {
-        return sessionStorage.getItem('user');
+        return JSON.parse(sessionStorage.getItem('user'));
     }
     getAccessToken() {
         const params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
