@@ -388,21 +388,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var _services_pinterest_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/pinterest.service */ "./src/app/services/pinterest.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+
 
 
 
 let LoginComponent = class LoginComponent {
-    constructor(pinterest) {
+    constructor(pinterest, router) {
         this.pinterest = pinterest;
+        this.router = router;
     }
     ngOnInit() {
     }
     doLogin() {
-        this.pinterest.initLogin();
+        if (!this.pinterest.getUser()) {
+            this.pinterest.initLogin();
+        }
+        else {
+            this.router.navigate(['user']);
+        }
     }
 };
 LoginComponent.ctorParameters = () => [
-    { type: _services_pinterest_service__WEBPACK_IMPORTED_MODULE_2__["PinterestService"] }
+    { type: _services_pinterest_service__WEBPACK_IMPORTED_MODULE_2__["PinterestService"] },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"] }
 ];
 LoginComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -583,8 +592,6 @@ let PinterestService = class PinterestService {
         this.env = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"];
         /* accessCode e accessToken podem ser string ou null */
         this.accessCode = null;
-        this.accessToken = null;
-        this.loggedInUser = null;
         this.reqHeaders = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]()
             .set('Content-Type', 'application/json')
             .set('Access-Control-Allow-Origin', 'https://' + window.location.hostname)
@@ -593,9 +600,11 @@ let PinterestService = class PinterestService {
             //.set('Access-Control-Request-Headers', 'Authorization, X-PING')
             .set('Access-Control-Allow-Headers', 'Content-Type, Authorization, Access-Control-Allow-Headers, X-Requested-With, X-PING');
     }
+    //private accessToken : string|null = null;
+    //private loggedInUser : any = null;
     initLogin() {
         // Só inicia o login caso não existam o access code e o acess token
-        if (this.accessCode && this.accessToken) {
+        if (this.accessCode && sessionStorage.getItem('accessToken')) {
             this.router.navigate(['/']); // Volta para a página inicial
             return;
         }
@@ -613,16 +622,16 @@ let PinterestService = class PinterestService {
     }
     getLoggedInUser() {
         // Somente procede à chamada de API se existir um access token
-        if (!this.accessToken) {
+        if (!sessionStorage.getItem('accessToken')) {
             this.logOff(); // Log off forçado;
             return;
         }
         const endPoint = 'me/';
         const params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
-            .set('access_token', this.accessToken)
+            .set('access_token', sessionStorage.getItem('accessToken'))
             .set('fields', 'id,username,first_name,last_name,bio,image');
         this.http.get(this.env.apiUri + endPoint, { params: params }).subscribe(user => {
-            this.loggedInUser = user['data'];
+            sessionStorage.setItem('user', user['data']);
             console.log(user);
             this.router.navigate(['user']);
         }, error => {
@@ -630,7 +639,7 @@ let PinterestService = class PinterestService {
         });
     }
     getUser() {
-        return this.loggedInUser;
+        return sessionStorage.getItem('user');
     }
     getAccessToken() {
         const params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
@@ -640,8 +649,8 @@ let PinterestService = class PinterestService {
             .set('code', this.accessCode);
         this.http.post(this.env.tokenUri, null, { params: params }).subscribe(res => {
             console.log('--TOKEN--');
-            this.accessToken = res['access_token'];
-            console.log(this.accessToken);
+            sessionStorage.setItem('accessToken', res['access_token']);
+            console.log(sessionStorage.getItem('accessToken'));
             this.getLoggedInUser();
             //this.router.navigate(['/']);
         }, error => {
@@ -652,32 +661,32 @@ let PinterestService = class PinterestService {
     }
     logOff() {
         this.accessCode = null;
-        this.accessToken = null;
-        this.loggedInUser = null;
+        sessionStorage.setItem('accessToken', null);
+        sessionStorage.setItem('user', null);
         this.router.navigate(['login']);
     }
     listBoards() {
         // Somente procede à chamada de API se existir um access token
-        if (!this.accessToken) {
+        if (!sessionStorage.getItem('accessToken')) {
             this.logOff(); // Log off forçado;
             return;
         }
         const endPoint = 'me/boards';
         const params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
-            .set('access_token', this.accessToken)
+            .set('access_token', sessionStorage.getItem('accessToken'))
             .set('scope', 'read_public');
         let fullUri = this.env.apiUri + endPoint + '?' + params.toString();
         return this.http.jsonp(fullUri, 'callback').toPromise();
     }
     listBoardPins(boardName) {
         // Somente procede à chamada de API se existir um access token
-        if (!this.accessToken) {
+        if (!sessionStorage.getItem('accessToken')) {
             this.logOff(); // Log off forçado;
             return;
         }
-        const endPoint = `boards/${this.loggedInUser.username}/${boardName}/pins`;
+        const endPoint = `boards/${this.getUser()['username']}/${boardName}/pins`;
         const params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
-            .set('access_token', this.accessToken)
+            .set('access_token', sessionStorage.getItem('accessToken'))
             .set('fields', 'id,url,note,image')
             .set('scope', 'read_public');
         let fullUri = this.env.apiUri + endPoint + '?' + params.toString();
