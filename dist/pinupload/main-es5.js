@@ -919,10 +919,15 @@ var environment = {
     redirectUri: 'https://faustocintra.github.io/pinupload/oauth2/callback',
     tokenUri: 'https://api.pinterest.com/v1/oauth/token',
     apiUri: 'https://api.pinterest.com/v1/',
+    /* Pinupload original */
     //clientId: '5048713194869147067',
     //clientSecret: '61229065b822b00bf68dda5c20381ba56c315eccd22e6067615a28e16c1c9c7b'
-    clientId: '5061890736316790442',
-    clientSecret: '2621b5b89b39061c1489788af31e8d239321e5b7d08b3cc772a681573a185a9f' // Cada um tem o seu
+    /* Pinupload reborn */
+    //clientId: '5061890736316790442', // Cada um tem o seu
+    //clientSecret: '2621b5b89b39061c1489788af31e8d239321e5b7d08b3cc772a681573a185a9f' // Cada um tem o seu
+    /* Pinupload triborn */
+    clientId: '5063936772239566312',
+    clientSecret: '2bb99db899eaf50e3b820673db9dd344deb6edcb5b670b013a07f188cd6ab406' // Cada um tem o seu
 };
 /*
  * For easier debugging in development mode, you can import the following file
