@@ -415,20 +415,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _services_pinterest_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../services/pinterest.service */ "./src/app/services/pinterest.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+
 
 
 
 var LoginComponent = /** @class */ (function () {
-    function LoginComponent(pinterest) {
+    function LoginComponent(pinterest, router) {
         this.pinterest = pinterest;
+        this.router = router;
     }
     LoginComponent.prototype.ngOnInit = function () {
     };
     LoginComponent.prototype.doLogin = function () {
-        this.pinterest.initLogin();
+        if (!this.pinterest.getUser()) {
+            this.pinterest.initLogin();
+        }
+        else {
+            this.router.navigate(['user']);
+        }
     };
     LoginComponent.ctorParameters = function () { return [
-        { type: _services_pinterest_service__WEBPACK_IMPORTED_MODULE_2__["PinterestService"] }
+        { type: _services_pinterest_service__WEBPACK_IMPORTED_MODULE_2__["PinterestService"] },
+        { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"] }
     ]; };
     LoginComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -616,8 +625,6 @@ var PinterestService = /** @class */ (function () {
         this.env = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"];
         /* accessCode e accessToken podem ser string ou null */
         this.accessCode = null;
-        this.accessToken = null;
-        this.loggedInUser = null;
         this.reqHeaders = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]()
             .set('Content-Type', 'application/json')
             .set('Access-Control-Allow-Origin', 'https://' + window.location.hostname)
@@ -626,9 +633,11 @@ var PinterestService = /** @class */ (function () {
             //.set('Access-Control-Request-Headers', 'Authorization, X-PING')
             .set('Access-Control-Allow-Headers', 'Content-Type, Authorization, Access-Control-Allow-Headers, X-Requested-With, X-PING');
     }
+    //private accessToken : string|null = null;
+    //private loggedInUser : any = null;
     PinterestService.prototype.initLogin = function () {
         // Só inicia o login caso não existam o access code e o acess token
-        if (this.accessCode && this.accessToken) {
+        if (this.accessCode && sessionStorage.getItem('accessToken')) {
             this.router.navigate(['/']); // Volta para a página inicial
             return;
         }
@@ -647,16 +656,16 @@ var PinterestService = /** @class */ (function () {
     PinterestService.prototype.getLoggedInUser = function () {
         var _this = this;
         // Somente procede à chamada de API se existir um access token
-        if (!this.accessToken) {
+        if (!sessionStorage.getItem('accessToken')) {
             this.logOff(); // Log off forçado;
             return;
         }
         var endPoint = 'me/';
         var params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
-            .set('access_token', this.accessToken)
+            .set('access_token', sessionStorage.getItem('accessToken'))
             .set('fields', 'id,username,first_name,last_name,bio,image');
         this.http.get(this.env.apiUri + endPoint, { params: params }).subscribe(function (user) {
-            _this.loggedInUser = user['data'];
+            sessionStorage.setItem('user', user['data']);
             console.log(user);
             _this.router.navigate(['user']);
         }, function (error) {
@@ -664,7 +673,7 @@ var PinterestService = /** @class */ (function () {
         });
     };
     PinterestService.prototype.getUser = function () {
-        return this.loggedInUser;
+        return sessionStorage.getItem('user');
     };
     PinterestService.prototype.getAccessToken = function () {
         var _this = this;
@@ -675,8 +684,8 @@ var PinterestService = /** @class */ (function () {
             .set('code', this.accessCode);
         this.http.post(this.env.tokenUri, null, { params: params }).subscribe(function (res) {
             console.log('--TOKEN--');
-            _this.accessToken = res['access_token'];
-            console.log(_this.accessToken);
+            sessionStorage.setItem('accessToken', res['access_token']);
+            console.log(sessionStorage.getItem('accessToken'));
             _this.getLoggedInUser();
             //this.router.navigate(['/']);
         }, function (error) {
@@ -687,32 +696,32 @@ var PinterestService = /** @class */ (function () {
     };
     PinterestService.prototype.logOff = function () {
         this.accessCode = null;
-        this.accessToken = null;
-        this.loggedInUser = null;
+        sessionStorage.setItem('accessToken', null);
+        sessionStorage.setItem('user', null);
         this.router.navigate(['login']);
     };
     PinterestService.prototype.listBoards = function () {
         // Somente procede à chamada de API se existir um access token
-        if (!this.accessToken) {
+        if (!sessionStorage.getItem('accessToken')) {
             this.logOff(); // Log off forçado;
             return;
         }
         var endPoint = 'me/boards';
         var params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
-            .set('access_token', this.accessToken)
+            .set('access_token', sessionStorage.getItem('accessToken'))
             .set('scope', 'read_public');
         var fullUri = this.env.apiUri + endPoint + '?' + params.toString();
         return this.http.jsonp(fullUri, 'callback').toPromise();
     };
     PinterestService.prototype.listBoardPins = function (boardName) {
         // Somente procede à chamada de API se existir um access token
-        if (!this.accessToken) {
+        if (!sessionStorage.getItem('accessToken')) {
             this.logOff(); // Log off forçado;
             return;
         }
-        var endPoint = "boards/" + this.loggedInUser.username + "/" + boardName + "/pins";
+        var endPoint = "boards/" + this.getUser()['username'] + "/" + boardName + "/pins";
         var params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
-            .set('access_token', this.accessToken)
+            .set('access_token', sessionStorage.getItem('accessToken'))
             .set('fields', 'id,url,note,image')
             .set('scope', 'read_public');
         var fullUri = this.env.apiUri + endPoint + '?' + params.toString();
