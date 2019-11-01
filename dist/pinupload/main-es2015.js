@@ -622,7 +622,7 @@ let PinterestService = class PinterestService {
             .set('access_token', this.accessToken)
             .set('fields', 'id,username,first_name,last_name,bio,image');
         this.http.get(this.env.apiUri + endPoint, { params: params }).subscribe(user => {
-            this.loggedInUser = user;
+            this.loggedInUser = user['data'];
             console.log(user);
             this.router.navigate(['user']);
         }, error => {
@@ -833,7 +833,7 @@ let UserComponent = class UserComponent {
     }
     ngOnInit() {
         // Busca os dados dos usuário no service
-        this.user = this.pinterest.getUser().data;
+        this.user = this.pinterest.getUser();
         // Se existir a imagem 60x60
         if (this.user.image['60x60']) {
             this.avatarImage = this.user.image['60x60'].url;
