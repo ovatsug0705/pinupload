@@ -92,7 +92,7 @@ export class PinterestService {
       .set('client_secret', this.env.clientSecret)
       .set('code', this.accessCode);
 
-      this.http.jsonp(this.env.tokenUri + '?' + params.toString(), 'callback').subscribe(
+      this.http.post(this.env.tokenUri, null, {params: params}).subscribe(
         res => {
           console.log('--TOKEN--');
           this.accessToken = res['access_token'];
