@@ -715,6 +715,7 @@ var PinterestService = /** @class */ (function () {
             .set('access_token', this.accessToken)
             .set('scope', 'read_public');
         var fullUri = this.env.apiUri + endPoint + '?' + params.toString();
+        console.log(fullUri);
         return this.http.jsonp(fullUri, 'callback').toPromise();
     };
     PinterestService.ctorParameters = function () { return [
