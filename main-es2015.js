@@ -680,6 +680,7 @@ let PinterestService = class PinterestService {
             .set('access_token', this.accessToken)
             .set('scope', 'read_public');
         let fullUri = this.env.apiUri + endPoint + '?' + params.toString();
+        console.log(fullUri);
         return this.http.jsonp(fullUri, 'callback').toPromise();
     }
 };
