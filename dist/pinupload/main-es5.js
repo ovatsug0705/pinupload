@@ -713,6 +713,7 @@ var PinterestService = /** @class */ (function () {
         var endPoint = "boards/" + this.loggedInUser.username + "/" + boardName + "/pins";
         var params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
             .set('access_token', this.accessToken)
+            .set('fields', 'id,url,note,image')
             .set('scope', 'read_public');
         var fullUri = this.env.apiUri + endPoint + '?' + params.toString();
         console.log(fullUri);
