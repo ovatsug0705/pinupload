@@ -665,7 +665,7 @@ var PinterestService = /** @class */ (function () {
             .set('access_token', sessionStorage.getItem('accessToken'))
             .set('fields', 'id,username,first_name,last_name,bio,image');
         this.http.get(this.env.apiUri + endPoint, { params: params }).subscribe(function (user) {
-            sessionStorage.setItem('user', user['data']);
+            sessionStorage.setItem('user', JSON.stringify(user['data']));
             console.log(user);
             _this.router.navigate(['user']);
         }, function (error) {
@@ -673,7 +673,7 @@ var PinterestService = /** @class */ (function () {
         });
     };
     PinterestService.prototype.getUser = function () {
-        return sessionStorage.getItem('user');
+        return JSON.parse(sessionStorage.getItem('user'));
     };
     PinterestService.prototype.getAccessToken = function () {
         var _this = this;
