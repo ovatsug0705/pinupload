@@ -927,8 +927,11 @@ var environment = {
     //clientId: '5061890736316790442', // Cada um tem o seu
     //clientSecret: '2621b5b89b39061c1489788af31e8d239321e5b7d08b3cc772a681573a185a9f' // Cada um tem o seu
     /* Pinupload triborn */
-    clientId: '5063936772239566312',
-    clientSecret: '2bb99db899eaf50e3b820673db9dd344deb6edcb5b670b013a07f188cd6ab406' // Cada um tem o seu
+    //clientId: '5063936772239566312', // Cada um tem o seu
+    //clientSecret: '2bb99db899eaf50e3b820673db9dd344deb6edcb5b670b013a07f188cd6ab406' // Cada um tem o seu
+    /* Pinupload tetraborn */
+    clientId: '5063938756044700469',
+    clientSecret: '204681794a494f62b1d6d6bab6b2068d90e4de3af8e79c9a6d7b1fe1659639e4' // Cada um tem o seu
 };
 /*
  * For easier debugging in development mode, you can import the following file
