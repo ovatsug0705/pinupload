@@ -401,7 +401,7 @@ let LoginComponent = class LoginComponent {
     ngOnInit() {
     }
     doLogin() {
-        if (!this.pinterest.isLoggedIn()) {
+        if (!this.pinterest.getUser()) {
             this.pinterest.initLogin();
         }
         else {
