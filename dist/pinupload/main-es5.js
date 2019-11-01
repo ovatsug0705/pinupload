@@ -702,8 +702,8 @@ var PinterestService = /** @class */ (function () {
     };
     PinterestService.prototype.logOff = function () {
         this.accessCode = null;
-        sessionStorage.setItem('accessToken', null);
-        sessionStorage.setItem('user', null);
+        sessionStorage.removeItem('accessToken');
+        sessionStorage.removeItem('user');
         this.router.navigate(['login']);
     };
     PinterestService.prototype.listBoards = function () {
