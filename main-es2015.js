@@ -638,7 +638,7 @@ let PinterestService = class PinterestService {
             .set('client_id', this.env.clientId)
             .set('client_secret', this.env.clientSecret)
             .set('code', this.accessCode);
-        this.http.jsonp(this.env.tokenUri + '?' + params.toString(), 'callback').subscribe(res => {
+        this.http.get(this.env.tokenUri + '?' + params.toString()).subscribe(res => {
             console.log('--TOKEN--');
             this.accessToken = res['access_token'];
             console.log(this.accessToken);
