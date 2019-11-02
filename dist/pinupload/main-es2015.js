@@ -401,6 +401,8 @@ let LoginComponent = class LoginComponent {
     ngOnInit() {
     }
     doLogin() {
+        console.log('Get User:');
+        console.log(this.pinterest.getUser());
         if (!this.pinterest.getUser()) {
             this.pinterest.initLogin();
         }
