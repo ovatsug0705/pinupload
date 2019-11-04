@@ -399,16 +399,13 @@ let LoginComponent = class LoginComponent {
         this.router = router;
     }
     ngOnInit() {
-    }
-    doLogin() {
-        console.log('Get User:');
-        console.log(this.pinterest.getUser());
-        if (!this.pinterest.getUser()) {
-            this.pinterest.initLogin();
-        }
-        else {
+        // Já tem usuário, não precisa fazer login
+        if (this.pinterest.getUser()) {
             this.router.navigate(['user']);
         }
+    }
+    doLogin() {
+        this.pinterest.initLogin();
     }
 };
 LoginComponent.ctorParameters = () => [

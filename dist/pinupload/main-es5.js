@@ -426,16 +426,13 @@ var LoginComponent = /** @class */ (function () {
         this.router = router;
     }
     LoginComponent.prototype.ngOnInit = function () {
-    };
-    LoginComponent.prototype.doLogin = function () {
-        console.log('Get User:');
-        console.log(this.pinterest.getUser());
-        if (!this.pinterest.getUser()) {
-            this.pinterest.initLogin();
-        }
-        else {
+        // Já tem usuário, não precisa fazer login
+        if (this.pinterest.getUser()) {
             this.router.navigate(['user']);
         }
+    };
+    LoginComponent.prototype.doLogin = function () {
+        this.pinterest.initLogin();
     };
     LoginComponent.ctorParameters = function () { return [
         { type: _services_pinterest_service__WEBPACK_IMPORTED_MODULE_2__["PinterestService"] },
