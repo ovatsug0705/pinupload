@@ -28,14 +28,14 @@ export class PinterestService {
 
   /* accessCode e accessToken podem ser string ou null */
   private accessCode: string|null = null;
-  private accessToken : string|null = null;
+  //private accessToken : string|null = null;
 
-  private loggedInUser : any = null;
+  //private loggedInUser : any = null;
 
   initLogin() {
 
     // Só inicia o login caso não existam o access code e o acess token
-    if(this.accessCode && this.accessToken) {
+    if(this.accessCode && sessionStorage.getItem('accessToken')) {
       this.router.navigate(['/']); // Volta para a página inicial
       return;
     }
@@ -59,19 +59,19 @@ export class PinterestService {
   getLoggedInUser() {
 
     // Somente procede à chamada de API se existir um access token
-    if(! this.accessToken) {
+    if(! sessionStorage.getItem('accessToken')) {
       this.logOff(); // Log off forçado;
       return;
     }
 
     const endPoint = 'me/';
     const params = new HttpParams()
-      .set('access_token', this.accessToken)
+      .set('access_token', sessionStorage.getItem('accessToken'))
       .set('fields', 'id,username,first_name,last_name,bio,image');
 
     this.http.get(this.env.apiUri + endPoint, {params: params}).subscribe (
       user => {
-        this.loggedInUser = user;
+        sessionStorage.setItem('user', JSON.stringify(user['data']));
         console.log(user);
         this.router.navigate(['user']);
       },
@@ -82,7 +82,13 @@ export class PinterestService {
   }
 
   getUser() {
-    return this.loggedInUser;
+    let user = sessionStorage.getItem('user');
+    if(user) {
+      return JSON.parse(user);
+    }
+    else {
+      return null;
+    }
   }
 
   private getAccessToken() {
@@ -95,8 +101,8 @@ export class PinterestService {
       this.http.post(this.env.tokenUri, null, {params: params}).subscribe(
         res => {
           console.log('--TOKEN--');
-          this.accessToken = res['access_token'];
-          console.log(this.accessToken);
+          sessionStorage.setItem('accessToken', res['access_token']);
+          console.log(sessionStorage.getItem('accessToken'));
           this.getLoggedInUser();
           //this.router.navigate(['/']);
         },
@@ -111,22 +117,22 @@ export class PinterestService {
   
   logOff() {
     this.accessCode = null;
-    this.accessToken = null;
-    this.loggedInUser = null;
+    sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem('user');
     this.router.navigate(['login']);
   }
 
   listBoards() {
 
     // Somente procede à chamada de API se existir um access token
-    if(! this.accessToken) {
+    if(! sessionStorage.getItem('accessToken')) {
       this.logOff(); // Log off forçado;
       return;
     }
 
     const endPoint = 'me/boards';
     const params = new HttpParams()
-      .set('access_token', this.accessToken)
+      .set('access_token', sessionStorage.getItem('accessToken'))
       .set('scope', 'read_public');
     
     let fullUri = this.env.apiUri + endPoint + '?' + params.toString();
@@ -138,20 +144,27 @@ export class PinterestService {
   listBoardPins(boardName: string) {
 
     // Somente procede à chamada de API se existir um access token
-    if(! this.accessToken) {
+    if(! sessionStorage.getItem('accessToken')) {
       this.logOff(); // Log off forçado;
       return;
     }
 
-    const endPoint = `boards/${this.loggedInUser.username}/${boardName}/pins`;
+    const endPoint = `boards/${this.getUser()['username']}/${boardName}/pins`;
     const params = new HttpParams()
-      .set('access_token', this.accessToken)
+      .set('access_token', sessionStorage.getItem('accessToken'))
+      .set('fields', 'id,url,note,image')
       .set('scope', 'read_public');
 
     let fullUri = this.env.apiUri + endPoint + '?' + params.toString();
 
+    console.log(fullUri);
+
     return this.http.jsonp(fullUri, 'callback').toPromise();
 
+  }
+
+  public isLoggedIn() {
+    return sessionStorage.getItem('accessToken') != null;
   }
 
 }

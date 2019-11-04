@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PinterestService } from '../services/pinterest.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +10,8 @@ import { PinterestService } from '../services/pinterest.service';
 export class LoginComponent implements OnInit {
 
   constructor(
-    private pinterest: PinterestService
+    private pinterest: PinterestService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -17,7 +19,14 @@ export class LoginComponent implements OnInit {
   }
 
   doLogin() {
-    this.pinterest.initLogin();
+    console.log('Get User:');
+    console.log(this.pinterest.getUser());
+    if(! this.pinterest.getUser()) {
+      this.pinterest.initLogin();
+    }
+    else {
+      this.router.navigate(['user']);
+    }
   }
 
 }

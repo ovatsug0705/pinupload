@@ -18,7 +18,7 @@ export class UserComponent implements OnInit {
 
   ngOnInit() {
     // Busca os dados dos usuário no service
-    this.user = this.pinterest.getUser().data;
+    this.user = this.pinterest.getUser();
 
     // Se existir a imagem 60x60
     if (this.user.image['60x60']) {
