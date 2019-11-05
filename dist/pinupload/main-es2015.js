@@ -30,7 +30,7 @@ webpackEmptyAsyncContext.id = "./$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h1>Pastas</h1>\n\n<mat-accordion *ngIf=\"boards.length > 0\">\n   <mat-expansion-panel *ngFor=\"let board of boards\" (opened)=\"fetchPins(board.name)\">\n      <mat-expansion-panel-header>\n\n         <mat-panel-title>\n            {{ board.name }}\n         </mat-panel-title>\n\n      </mat-expansion-panel-header>\n\n      <mat-card *ngFor=\"let pin of boardPins\" class=\"pin-preview\">\n         <img mat-card-image [src]=\"pin.image.original.url\" [alt]=\"pin.note\">\n         <mat-card-content>\n           <p>\n             {{ pin.note }}\n           </p>\n         </mat-card-content>         \n       </mat-card>\n\n   </mat-expansion-panel>\n</mat-accordion>\n\n<p *ngIf=\"boards.length <= 0\">Você não criou nenhuma pasta ainda.</p>"
+module.exports = "<h1>Pastas</h1>\n\n<mat-accordion *ngIf=\"boards.length > 0\">\n   <mat-expansion-panel *ngFor=\"let board of boards\" (opened)=\"fetchPins(board.name)\">\n      <mat-expansion-panel-header>\n\n         <mat-panel-title>\n            {{ board.name }}\n         </mat-panel-title>\n\n      </mat-expansion-panel-header>\n\n      <mat-card *ngFor=\"let pin of boardPins[board.name]\" class=\"pin-preview\">\n         <img mat-card-image [src]=\"pin.image.original.url\" [alt]=\"pin.note\">\n         <mat-card-content>\n           <p>\n             {{ pin.note }}\n           </p>\n         </mat-card-content>         \n       </mat-card>\n\n   </mat-expansion-panel>\n</mat-accordion>\n\n<p *ngIf=\"boards.length <= 0\">Você não criou nenhuma pasta ainda.</p>"
 
 /***/ }),
 
@@ -280,7 +280,7 @@ let BoardsComponent = class BoardsComponent {
     constructor(pinterest) {
         this.pinterest = pinterest;
         this.boards = [];
-        this.boardPins = [];
+        this.boardPins = {};
     }
     ngOnInit() {
         return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function* () {
@@ -296,13 +296,16 @@ let BoardsComponent = class BoardsComponent {
     }
     fetchPins(boardName) {
         return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function* () {
-            try {
-                let result = yield this.pinterest.listBoardPins(boardName);
-                this.boardPins = result['data'];
-                console.log(result);
-            }
-            catch (error) {
-                console.log(error);
+            // Se ainda não houver carregado a lista de imagens do board
+            if (!this.boardPins['boardName']) {
+                try {
+                    let result = yield this.pinterest.listBoardPins(boardName);
+                    this.boardPins['boardName'] = result['data'];
+                    console.log(result);
+                }
+                catch (error) {
+                    console.log(error);
+                }
             }
         });
     }
@@ -906,11 +909,11 @@ const environment = {
     //clientId: '5061890736316790442', // Cada um tem o seu
     //clientSecret: '2621b5b89b39061c1489788af31e8d239321e5b7d08b3cc772a681573a185a9f' // Cada um tem o seu
     /* Pinupload triborn */
-    clientId: '5063936772239566312',
-    clientSecret: '2bb99db899eaf50e3b820673db9dd344deb6edcb5b670b013a07f188cd6ab406' // Cada um tem o seu
+    //clientId: '5063936772239566312', // Cada um tem o seu
+    //clientSecret: '2bb99db899eaf50e3b820673db9dd344deb6edcb5b670b013a07f188cd6ab406' // Cada um tem o seu
     /* Pinupload tetraborn */
-    //clientId: '5063938756044700469', // Cada um tem o seu
-    //clientSecret: '204681794a494f62b1d6d6bab6b2068d90e4de3af8e79c9a6d7b1fe1659639e4' // Cada um tem o seu
+    clientId: '5063938756044700469',
+    clientSecret: '204681794a494f62b1d6d6bab6b2068d90e4de3af8e79c9a6d7b1fe1659639e4' // Cada um tem o seu
 };
 /*
  * For easier debugging in development mode, you can import the following file
