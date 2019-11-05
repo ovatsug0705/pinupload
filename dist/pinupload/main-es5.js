@@ -30,7 +30,7 @@ webpackEmptyAsyncContext.id = "./$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h1>Pastas</h1>\n\n<mat-accordion *ngIf=\"boards.length > 0\">\n   <mat-expansion-panel *ngFor=\"let board of boards\" (opened)=\"fetchPins(board.name)\">\n      <mat-expansion-panel-header>\n\n         <mat-panel-title>\n            {{ board.name }}\n         </mat-panel-title>\n\n      </mat-expansion-panel-header>\n\n      <mat-card *ngFor=\"pin of boardPins\" class=\"pin-preview\">\n         <img mat-card-image [src]=\"pin.image.url\" [alt]=\"pin.note\">\n         <mat-card-content>\n           <p>\n             {{ pin.note }}\n           </p>\n         </mat-card-content>         \n       </mat-card>\n\n   </mat-expansion-panel>\n</mat-accordion>\n\n<p *ngIf=\"boards.length <= 0\">Você não criou nenhuma pasta ainda.</p>"
+module.exports = "<h1>Pastas</h1>\n\n<mat-accordion *ngIf=\"boards.length > 0\">\n   <mat-expansion-panel *ngFor=\"let board of boards\" (opened)=\"fetchPins(board.name)\">\n      <mat-expansion-panel-header>\n\n         <mat-panel-title>\n            {{ board.name }}\n         </mat-panel-title>\n\n      </mat-expansion-panel-header>\n\n      <mat-card *ngFor=\"let pin of boardPins\" class=\"pin-preview\">\n         <img mat-card-image [src]=\"pin.image.url\" [alt]=\"pin.note\">\n         <mat-card-content>\n           <p>\n             {{ pin.note }}\n           </p>\n         </mat-card-content>         \n       </mat-card>\n\n   </mat-expansion-panel>\n</mat-accordion>\n\n<p *ngIf=\"boards.length <= 0\">Você não criou nenhuma pasta ainda.</p>"
 
 /***/ }),
 
