@@ -314,14 +314,15 @@ var BoardsComponent = /** @class */ (function () {
             return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!!this.boardPins['boardName']) return [3 /*break*/, 4];
+                        console.log(this.boardPins[boardName]);
+                        if (!!this.boardPins[boardName]) return [3 /*break*/, 4];
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 3, , 4]);
                         return [4 /*yield*/, this.pinterest.listBoardPins(boardName)];
                     case 2:
                         result = _a.sent();
-                        this.boardPins['boardName'] = result['data'];
+                        this.boardPins[boardName] = result['data'];
                         console.log(result);
                         return [3 /*break*/, 4];
                     case 3:
