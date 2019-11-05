@@ -296,11 +296,12 @@ let BoardsComponent = class BoardsComponent {
     }
     fetchPins(boardName) {
         return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function* () {
+            console.log(this.boardPins[boardName]);
             // Se ainda não houver carregado a lista de imagens do board
-            if (!this.boardPins['boardName']) {
+            if (!this.boardPins[boardName]) {
                 try {
                     let result = yield this.pinterest.listBoardPins(boardName);
-                    this.boardPins['boardName'] = result['data'];
+                    this.boardPins[boardName] = result['data'];
                     console.log(result);
                 }
                 catch (error) {
