@@ -15,18 +15,14 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    
+    // Já tem usuário logado, não precisa fazer login
+    if(this.pinterest.getUser()) {
+      this.router.navigate(['user']);
+    }    
   }
 
   doLogin() {
-    console.log('Get User:');
-    console.log(this.pinterest.getUser());
-    if(! this.pinterest.getUser()) {
-      this.pinterest.initLogin();
-    }
-    else {
-      this.router.navigate(['user']);
-    }
+    this.pinterest.initLogin();    
   }
 
 }

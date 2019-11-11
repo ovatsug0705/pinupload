@@ -10,7 +10,14 @@
 
       </mat-expansion-panel-header>
 
-      <p>Aqui aparecerão os pins desta pasta.</p>
+      <mat-card *ngFor="let pin of boardPins[board.name]" class="pin-preview">
+         <img mat-card-image [src]="pin.image.original.url" [alt]="pin.note">
+         <mat-card-content>
+           <p>
+             {{ pin.note }}
+           </p>
+         </mat-card-content>         
+       </mat-card>
 
    </mat-expansion-panel>
 </mat-accordion>

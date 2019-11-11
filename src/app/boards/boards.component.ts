@@ -11,7 +11,7 @@ export class BoardsComponent implements OnInit {
   constructor(private pinterest: PinterestService) { }
 
   boards: any = [];
-  boardPins: any = [];
+  boardPins: any = {};
 
   async ngOnInit() {
     try {
@@ -25,13 +25,17 @@ export class BoardsComponent implements OnInit {
   }
 
   async fetchPins(boardName: string) {
-    try {
-      let result = await this.pinterest.listBoardPins(boardName);
-      this.boardPins = result['data'];
-      console.log(result);
-    }
-    catch(error) {
-      console.log(error);
+    console.log(this.boardPins[boardName]);
+    // Se ainda não houver carregado a lista de imagens do board
+    if(! this.boardPins[boardName]) {
+      try {
+        let result = await this.pinterest.listBoardPins(boardName);
+        this.boardPins[boardName] = result['data'];
+        console.log(result);
+      }
+      catch(error) {
+        console.log(error);
+      }
     }
   }
 

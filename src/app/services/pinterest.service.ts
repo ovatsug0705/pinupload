@@ -71,6 +71,7 @@ export class PinterestService {
 
     this.http.get(this.env.apiUri + endPoint, {params: params}).subscribe (
       user => {
+        // JSON.stringify(): converte JSON para string
         sessionStorage.setItem('user', JSON.stringify(user['data']));
         console.log(user);
         this.router.navigate(['user']);
@@ -84,6 +85,7 @@ export class PinterestService {
   getUser() {
     let user = sessionStorage.getItem('user');
     if(user) {
+      // JSON.parse(): converte string em JSON
       return JSON.parse(user);
     }
     else {
