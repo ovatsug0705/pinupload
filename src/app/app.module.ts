@@ -14,6 +14,8 @@ import { UserComponent } from './user/user.component';
 import { HeaderComponent } from './ui/header/header.component';
 import { MainMenuComponent } from './ui/main-menu/main-menu.component';
 import { BoardsComponent } from './boards/boards.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,8 @@ import { BoardsComponent } from './boards/boards.component';
     HttpClientModule,
     HttpClientJsonpModule,    
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [],
   bootstrap: [AppComponent]
