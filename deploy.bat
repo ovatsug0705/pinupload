@@ -1,4 +1,4 @@
-"%USERPROFILE%\AppData\Roaming\npm\ng.cmd" build --base-href /pinupload/ && ^
+"%USERPROFILE%\AppData\Roaming\npm\ng.cmd" build --prod --base-href /pinupload/ && ^
 copy /y src\404.html dist\pinupload && ^
 git add -f dist && ^
 git commit -m %1 && ^
